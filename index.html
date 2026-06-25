@@ -848,9 +848,10 @@ async function fetchFromYahoo(){
 ══════════════════════════════════════════════════ */
 async function fetchFromGoogleSheets(){
   const APPS_SCRIPT_URL='https://script.google.com/macros/s/AKfycbwNvUelTbblypOnY3gTAYXM-jGHV4DNPdyLn_Fk2W45K9zg0m21B0ESeUIzHWmq3nsJ/exec';
+  const proxied=`https://corsproxy.io/?${encodeURIComponent(APPS_SCRIPT_URL)}`;
   const c=new AbortController();
   const t=setTimeout(()=>c.abort(),12000);
-  const res=await fetch(APPS_SCRIPT_URL,{signal:c.signal,redirect:'follow'}).finally(()=>clearTimeout(t));
+  const res=await fetch(proxied,{signal:c.signal}).finally(()=>clearTimeout(t));
   if(!res.ok) throw new Error(`Sheets HTTP ${res.status}`);
   const p=await res.json();
   if(p.error) throw new Error(`Sheets: ${p.error}`);
