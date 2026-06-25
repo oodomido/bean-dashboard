@@ -847,10 +847,10 @@ async function fetchFromYahoo(){
    A열=날짜, B열=SOXL 종가 (헤더 있음)
 ══════════════════════════════════════════════════ */
 async function fetchFromGoogleSheets(){
-  const PROXY_URL='http://34.69.33.0:8181';
+  const PROXY_URL='https://decimal-jersey-punch.ngrok-free.dev';
   const c=new AbortController();
   const t=setTimeout(()=>c.abort(),12000);
-  const res=await fetch(PROXY_URL,{signal:c.signal}).finally(()=>clearTimeout(t));
+  const res=await fetch(PROXY_URL,{signal:c.signal,'ngrok-skip-browser-warning':'1'}).finally(()=>clearTimeout(t));
   if(!res.ok) throw new Error(`Proxy HTTP ${res.status}`);
   const p=await res.json();
   if(p.error) throw new Error(`Sheets: ${p.error}`);
